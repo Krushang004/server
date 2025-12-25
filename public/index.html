@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vercel Server API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .status {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        .endpoints {
+            margin-top: 30px;
+        }
+        
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-right: 10px;
+        }
+        
+        .get { background: #10b981; color: white; }
+        .post { background: #3b82f6; color: white; }
+        .put { background: #f59e0b; color: white; }
+        .delete { background: #ef4444; color: white; }
+        
+        .url {
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .description {
+            color: #666;
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+        
+        .test-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        
+        .test-link:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Vercel Server API</h1>
+        <p class="subtitle">Your serverless API is running successfully!</p>
+        <span class="status">● Online</span>
+        
+        <div class="endpoints">
+            <h2 style="margin-bottom: 20px; color: #333;">Available Endpoints:</h2>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api</span>
+                <p class="description">Main API endpoint - returns welcome message</p>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/hello?name=YourName</span>
+                <p class="description">Returns a personalized greeting</p>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/users</span>
+                <p class="description">Get all users</p>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <span class="url">/api/users</span>
+                <p class="description">Create a new user (requires JSON body with name and email)</p>
+            </div>
+            
+            <a href="/api" class="test-link">Test API →</a>
+        </div>
+    </div>
+</body>
+</html>
+
