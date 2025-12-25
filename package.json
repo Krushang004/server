@@ -1,0 +1,25 @@
+{
+  "name": "vercel-server",
+  "version": "1.0.0",
+  "description": "Vercel serverless API server",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel deploy",
+    "prod": "vercel deploy --prod"
+  },
+  "keywords": [
+    "vercel",
+    "serverless",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.7"
+  }
+}
+
