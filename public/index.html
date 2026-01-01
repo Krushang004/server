@@ -139,6 +139,26 @@
                 <p class="description">Create a new user (requires JSON body with name and email)</p>
             </div>
             
+            <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333; font-size: 1.2em;">🔐 Authentication Endpoints:</h3>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <span class="url">/api/auth/verify</span>
+                <p class="description">Verify Firebase ID token (requires Authorization: Bearer token header)</p>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/auth/user</span>
+                <p class="description">Get authenticated user info (protected - requires token)</p>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/auth/protected</span>
+                <p class="description">Example protected endpoint (requires token)</p>
+            </div>
+            
             <a href="/api" class="test-link">Test API →</a>
         </div>
     </div>
