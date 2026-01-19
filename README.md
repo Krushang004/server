@@ -110,6 +110,10 @@ npm run prod
   - Requires: `Authorization: Bearer <firebase-id-token>` header
   - Returns: Protected resource with user info
 
+### Google OAuth (Server-side) Endpoints
+- **GET** `/auth/google` - Starts Google OAuth (redirects to Google)
+- **GET** `/auth/google/callback` - Google OAuth callback URL (configure this in Google Cloud Console)
+
 ## Usage Examples
 
 ### Using fetch in your frontend:
@@ -248,6 +252,16 @@ FIREBASE_SERVICE_ACCOUNT_KEY={"type":"service_account",...}
 # FIREBASE_PROJECT_ID=your-project-id
 # FIREBASE_CLIENT_EMAIL=your-service-account-email
 # FIREBASE_PRIVATE_KEY="your-private-key"
+
+# Google OAuth (for /auth/google and /auth/google/callback)
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+# Optional (defaults to https://<your-vercel-domain>/auth/google/callback)
+# GOOGLE_REDIRECT_URI=https://your-domain.vercel.app/auth/google/callback
+
+# Where to redirect after Google login (your frontend)
+# Example: https://your-frontend.vercel.app/auth/callback
+FRONTEND_REDIRECT_URL=https://your-frontend.example/auth/callback
 ```
 
 Access them in your functions:

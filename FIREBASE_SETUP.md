@@ -44,6 +44,29 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----E
 5. Make sure to add it for **Production**, **Preview**, and **Development** environments
 6. Redeploy your application
 
+## Google OAuth Setup (for /auth/google/callback)
+
+If you want to use the URL you mentioned (example: `https://server-coral-ten.vercel.app/auth/google/callback`), you must configure Google OAuth.
+
+### 1) Create OAuth client
+
+1. Go to Google Cloud Console → APIs & Services → Credentials
+2. Create **OAuth client ID** (Web application)
+3. Add **Authorized redirect URI**:
+   - `https://server-coral-ten.vercel.app/auth/google/callback`
+4. Copy the **Client ID** and **Client Secret**
+
+### 2) Add env vars in Vercel
+
+In Vercel Dashboard → Project → Settings → Environment Variables, add:
+
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `FRONTEND_REDIRECT_URL` (where to send the user after login; your app’s page)
+
+Optional:
+- `GOOGLE_REDIRECT_URI` (if not set, server uses `https://<current-domain>/auth/google/callback`)
+
 ### 3. Enable Firebase Authentication
 
 1. In Firebase Console, go to **Authentication**
@@ -105,6 +128,25 @@ const data = await response.json();
 console.log(data);
 ```
 
+## Testing Google OAuth
+
+1. Open:
+   - `https://server-coral-ten.vercel.app/auth/google?redirect=https://your-frontend.example/auth/callback`
+2. After Google login, your frontend redirect URL will receive:
+   - `?firebaseCustomToken=...`
+3. In your frontend, exchange it for a Firebase ID token:
+
+```javascript
+import { getAuth, signInWithCustomToken } from 'firebase/auth';
+
+const auth = getAuth();
+const userCred = await signInWithCustomToken(auth, firebaseCustomToken);
+const idToken = await userCred.user.getIdToken();
+```
+
+4. Call protected APIs with:
+   - `Authorization: Bearer <idToken>`
+
 ## Troubleshooting
 
 ### Error: "Failed to initialize Firebase Admin SDK"
@@ -131,4 +173,5 @@ console.log(data);
 - Keep your service account keys secure
 - Use environment variables in Vercel, never hardcode credentials
 - Consider restricting CORS origins in production
+
 
