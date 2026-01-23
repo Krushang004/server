@@ -112,9 +112,19 @@ export default async function handler(req, res) {
       firebaseCustomToken: customToken
     });
   } catch (error) {
+    console.error('Google OAuth callback error:', error);
+    
+    // Provide helpful error messages
+    let errorMessage = error?.message || String(error);
+    if (errorMessage.includes('ENOTFOUND metadata.google.internal') || 
+        errorMessage.includes('Failed to determine project ID')) {
+      errorMessage = 'Firebase Admin SDK not configured. Please set FIREBASE_SERVICE_ACCOUNT_KEY in Vercel environment variables. ' +
+        'Get it from Firebase Console > Project Settings > Service Accounts > Generate New Private Key';
+    }
+    
     return res.status(500).json({
       error: 'Google OAuth callback failed',
-      message: error?.message || String(error)
+      message: errorMessage
     });
   }
 }
