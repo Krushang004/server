@@ -1,6 +1,6 @@
 // Google OAuth callback: exchange code -> verify Google ID token -> create/get Firebase user -> mint Firebase custom token
 import { OAuth2Client } from 'google-auth-library';
-import { auth } from '../../../lib/firebase.js';
+import { getAuth } from '../../../lib/firebase.js';
 
 function getBaseUrl(req) {
   const proto = (req.headers['x-forwarded-proto'] || 'https').split(',')[0].trim();
@@ -69,14 +69,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Google token payload missing sub/email' });
     }
 
+    // Initialize Firebase Auth
+    let firebaseAuth;
+    try {
+      firebaseAuth = getAuth();
+    } catch (firebaseError) {
+      return res.status(500).json({
+        error: 'Firebase not configured',
+        message: firebaseError.message || 'Please set FIREBASE_SERVICE_ACCOUNT_KEY in Vercel environment variables'
+      });
+    }
+
     // Create/get Firebase user
     const uid = `google:${payload.sub}`;
     let userRecord;
     try {
-      userRecord = await auth.getUser(uid);
+      userRecord = await firebaseAuth.getUser(uid);
     } catch (e) {
       // Create user if not found
-      userRecord = await auth.createUser({
+      userRecord = await firebaseAuth.createUser({
         uid,
         email: payload.email,
         emailVerified: !!payload.email_verified,
@@ -86,7 +97,7 @@ export default async function handler(req, res) {
     }
 
     // Mint a Firebase custom token for this uid
-    const customToken = await auth.createCustomToken(userRecord.uid, {
+    const customToken = await firebaseAuth.createCustomToken(userRecord.uid, {
       provider: 'google',
       email: payload.email
     });
