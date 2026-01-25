@@ -259,9 +259,10 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 # Optional (defaults to https://<your-vercel-domain>/auth/google/callback)
 # GOOGLE_REDIRECT_URI=https://your-domain.vercel.app/auth/google/callback
 
-# Where to redirect after Google login (your frontend)
-# Example: https://your-frontend.vercel.app/auth/callback
-FRONTEND_REDIRECT_URL=https://your-frontend.example/auth/callback
+# Mobile app deep link (where to redirect after Google OAuth login)
+# Example: mentalhealthtracker://auth-success
+# The token will be appended as: mentalhealthtracker://auth-success?token=<firebaseCustomToken>
+MOBILE_APP_DEEPLINK=mentalhealthtracker://auth-success
 ```
 
 Access them in your functions:

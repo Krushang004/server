@@ -102,20 +102,19 @@ export default async function handler(req, res) {
       email: payload.email
     });
 
-    // Where to send user after success:
-    // - Prefer FRONTEND_REDIRECT_URL env var (e.g. https://yourapp.com/auth/callback)
-    // - Or allow ?redirect=... as query param
-    const redirectParam = typeof req.query?.redirect === 'string' ? req.query.redirect : null;
-    const frontendRedirect = redirectParam || process.env.FRONTEND_REDIRECT_URL;
-
-    if (frontendRedirect) {
-      const target = new URL(frontendRedirect, frontendRedirect.startsWith('/') ? getBaseUrl(req) : undefined);
-      target.searchParams.set('firebaseCustomToken', customToken);
-      if (typeof req.query?.state === 'string') target.searchParams.set('state', req.query.state);
-      if (safeRedirect(res, target.toString())) return;
+    // Redirect to mobile app deep link
+    const mobileDeepLink = process.env.MOBILE_APP_DEEPLINK;
+    
+    if (mobileDeepLink) {
+      // Construct deep link: mentalhealthtracker://auth-success?token=<firebaseCustomToken>
+      const deepLinkUrl = `${mobileDeepLink}?token=${encodeURIComponent(customToken)}`;
+      
+      // Redirect to mobile deep link
+      res.redirect(302, deepLinkUrl);
+      return;
     }
 
-    // Fallback: show token as JSON (useful for testing)
+    // Fallback: show token as JSON (useful for testing if MOBILE_APP_DEEPLINK is not set)
     return res.status(200).json({
       success: true,
       uid: userRecord.uid,
